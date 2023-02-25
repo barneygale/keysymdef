@@ -6,7 +6,8 @@ from tempfile import TemporaryDirectory
 
 
 repo = 'https://github.com/freedesktop/xorg-proto-x11proto.git'
-pattern = r'#define XK_(\w+)\s+0x(\w+)(?:\s+/\*\s+U\+(\w+))?'
+filenames = ['keysymdef.h', 'XF86keysym.h']
+pattern = r'#define (?:XF86)?XK_(\w+)\s+0x(\w+)(?:\s+/\*\s+U\+(\w+))?'
 
 
 def main():
@@ -14,11 +15,12 @@ def main():
 
     with TemporaryDirectory() as temp:
         run(['git', 'clone', repo, '.'], cwd=temp)
-        text = Path(temp, 'keysymdef.h').read_text()
-        for name, sym, uni in findall(pattern, text):
-            sym = int(sym, 16)
-            uni = int(uni, 16) if uni else None
-            keysymdef.append((name, sym, uni))
+        for filename in filenames:
+            text = Path(temp, filename).read_text()
+            for name, sym, uni in findall(pattern, text):
+                sym = int(sym, 16)
+                uni = int(uni, 16) if uni else None
+                keysymdef.append((name, sym, uni))
 
     with open('keysymdef.py', 'w') as f:
         f.write('keysymdef = \\\n')
