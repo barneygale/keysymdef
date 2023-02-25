@@ -1,11 +1,13 @@
 keysymdef: X11 keysym data
 ==========================
 
-This Python package contains the X11 keysym definitions as a list of tuples::
+This Python package contains the X11 and XF86 keysym definitions as lists of tuples::
 
-    >>> from keysymdef import keysymdef
+    >>> from keysymdef import keysymdef, xf86keysym
     >>> print(keysymdef[1])
     ('BackSpace', 65288, None)
+    >>> print(xf86keysym[1])
+    ('MonBrightnessUp', 269025026, None)
 
 The elements of each tuple are:
 

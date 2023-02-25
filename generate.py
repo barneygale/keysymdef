@@ -11,20 +11,19 @@ pattern = r'#define (?:XF86)?XK_(\w+)\s+0x(\w+)(?:\s+/\*\s+U\+(\w+))?'
 
 
 def main():
-    keysymdef = []
-
     with TemporaryDirectory() as temp:
         run(['git', 'clone', repo, '.'], cwd=temp)
-        for filename in filenames:
-            text = Path(temp, filename).read_text()
-            for name, sym, uni in findall(pattern, text):
-                sym = int(sym, 16)
-                uni = int(uni, 16) if uni else None
-                keysymdef.append((name, sym, uni))
-
-    with open('keysymdef.py', 'w') as f:
-        f.write('keysymdef = \\\n')
-        pprint(keysymdef, f)
+        with open('keysymdef.py', 'w') as f:
+            for filename in filenames:
+                keysymdef = []
+                text = Path(temp, filename).read_text()
+                for name, sym, uni in findall(pattern, text):
+                    sym = int(sym, 16)
+                    uni = int(uni, 16) if uni else None
+                    keysymdef.append((name, sym, uni))
+                varname = filename.lower().split('.')[0]
+                f.write(varname + ' = \\\n')
+                pprint(keysymdef, f)
 
 
 if __name__ == '__main__':

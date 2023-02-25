@@ -2097,8 +2097,9 @@ keysymdef = \
  ('Sinh_lu2', 16780767, 3551),
  ('Sinh_ruu2', 16780786, 3570),
  ('Sinh_luu2', 16780787, 3571),
- ('Sinh_kunddaliya', 16780788, 3572),
- ('ModeLock', 269025025, None),
+ ('Sinh_kunddaliya', 16780788, 3572)]
+xf86keysym = \
+[('ModeLock', 269025025, None),
  ('MonBrightnessUp', 269025026, None),
  ('MonBrightnessDown', 269025027, None),
  ('KbdLightOnOff', 269025028, None),
